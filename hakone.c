@@ -63,10 +63,28 @@ void pre_auton()
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
+#define ARM_MOTOR_ZERO {motor[M2] = motor[M9] = 0;}
+#define ARM_MOTOR_
+#define BASE_MOTOR_FWD basemotor(127, -127);
+#define BASE_MOTOR_BKD basemotor(-64, 64);
+#define BASE_MOTOR_ZERO basemotor(0, 0);
+#define ARM_MOTOR_UP {motor[M2] = 127; motor[M9] = -127;}
+#define BELLY_MOTOR_DOWN {motor[M7] = -127; motor[M8] = 127;}
+#define BELLY_MOTOR_ZERO {motor[M7] = motor[M8] = 0;}
 
 task autonomous()
 {
-	basemotor(0, 0);
+#if 1
+ARM_MOTOR_UP
+sleep(650);
+ARM_MOTOR_ZERO
+BELLY_MOTOR_DOWN
+sleep(1200);
+BELLY_MOTOR_ZERO
+BASE_MOTOR_FWD
+sleep (1500);
+BASE_MOTOR_ZERO
+#endif
 }
 
 /*---------------------------------------------------------------------------*/
@@ -82,10 +100,10 @@ task autonomous()
 #define BELLY_POT_REST 725 // value of pot when loader is all the way back
 #define BELLY_POT_FRONT 3275 // value of pot when loader is all the way front
 #define BELLY_POT_MID  2000
-
+#define BELLY_POT_
 task usercontrol()
 {
-	short target_pot = BELLY_POT_MID;
+	//short target_pot = BELLY_POT_MID;
 	// User control code here, inside the loop
 	while (true)
 	{
