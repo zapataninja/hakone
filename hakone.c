@@ -63,26 +63,59 @@ void pre_auton()
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-#define ARM_MOTOR_ZERO {motor[M2] = motor[M9] = 0;}
-#define ARM_MOTOR_
-#define BASE_MOTOR_FWD basemotor(127, -127);
+#define ARM_MOTOR_ZERO {motor[M2] = motor[M9] = 0;};
+#define ARM_MOTOR_DOWN {motor[M2] = -64; motor[M9] = 64;};
+#define ARM_MOTOR_UP {motor[M2] = 64; motor[M9] = -64;};
+
+#define BASE_MOTOR_FWD basemotor(64, -64);
 #define BASE_MOTOR_BKD basemotor(-64, 64);
 #define BASE_MOTOR_ZERO basemotor(0, 0);
-#define ARM_MOTOR_UP {motor[M2] = 127; motor[M9] = -127;}
-#define BELLY_MOTOR_DOWN {motor[M7] = -127; motor[M8] = 127;}
+#define BASE_MOTOR_CLOCKWISE basemotor(127, 127);
+
+#define BELLY_MOTOR_DOWN {motor[M7] = -64; motor[M8] = 64;}
+#define BELLY_MOTOR_UP {motor[M7] = 64; motor[M8] = -64;}
 #define BELLY_MOTOR_ZERO {motor[M7] = motor[M8] = 0;}
+
+#define CLAW_MOTOR_OPEN {motor[M6] = 127;}
+#define CLAW_MOTOR_ZERO {motor[M6] = 0;}
+
 
 task autonomous()
 {
 #if 1
 ARM_MOTOR_UP
-sleep(650);
+sleep(1100);
 ARM_MOTOR_ZERO
 BELLY_MOTOR_DOWN
-sleep(1200);
+sleep(2400);
 BELLY_MOTOR_ZERO
 BASE_MOTOR_FWD
-sleep (1500);
+sleep (2*1200);
+BASE_MOTOR_ZERO
+BELLY_MOTOR_UP
+sleep (2400);
+BELLY_MOTOR_ZERO
+ARM_MOTOR_DOWN
+sleep(1100);
+CLAW_MOTOR_OPEN
+ARM_MOTOR_UP
+sleep(1100);
+CLAW_MOTOR_ZERO
+ARM_MOTOR_ZERO
+BASE_MOTOR_BKD
+sleep (2400);
+BASE_MOTOR_ZERO
+BASE_MOTOR_CLOCKWISE
+sleep(1500);
+BASE_MOTOR_ZERO
+BASE_MOTOR_FWD
+sleep(1300);
+BASE_MOTOR_ZERO
+BELLY_MOTOR_DOWN
+sleep(2500);
+BELLY_MOTOR_ZERO
+BASE_MOTOR_BKD
+sleep(1000);
 BASE_MOTOR_ZERO
 #endif
 }
