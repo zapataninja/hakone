@@ -88,7 +88,7 @@ task autonomous()
 {
 short sign = SensorValue[jumper] ? -1 : 1;
 ARM_MOTOR_UP
-sleep(800);
+sleep(700);
 // arm should have cleared
 BELLY_MOTOR_DOWN
 sleep(400);
@@ -97,7 +97,7 @@ sleep(1300);
 BELLY_MOTOR_ZERO
 
 BASE_MOTOR_FWD
-sleep(1600);
+sleep(1800);
 BASE_MOTOR_ZERO
 
 // goal is picked
@@ -110,7 +110,7 @@ BELLY_MOTOR_ZERO
 
 ARM_MOTOR_DOWN
 BASE_MOTOR_BKD
-sleep(1300);
+sleep(1500);
 
 BASE_MOTOR_ZERO
 sleep(200);
@@ -130,21 +130,13 @@ ARM_MOTOR_UP
 sleep(500);
 CLAW_MOTOR_ZERO
 BASE_MOTOR_CLOCKWISE
-sleep(700);
+sleep(650);
 ARM_MOTOR_ZERO
 
 BASE_MOTOR_FWD
 sleep(2000);
 BASE_MOTOR_ZERO
 
-/*
-CLAW_MOTOR_OPEN
-ARM_MOTOR_UP
-sleep(600);
-CLAW_MOTOR_ZERO
-sleep(600);
-ARM_MOTOR_ZERO
-*/
 BELLY_MOTOR_DOWN
 sleep(1700);
 BELLY_MOTOR_ZERO
