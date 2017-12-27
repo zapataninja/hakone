@@ -9,6 +9,7 @@
 #pragma config(Motor,  port9,           M9,            tmotorVex393TurboSpeed_MC29, openLoop) // LeftArm
 #pragma config(Motor,  port10,          M10,           tmotorVex393TurboSpeed_MC29, openLoop) // RightBase
 #pragma config(Sensor, in1,             belly_angle,   sensorPotentiometer)
+#pragma config(Sensor, in2,             arm_angle,     sensorPotentiometer)
 #pragma config(Sensor, dgtl1,           jumper,        sensorDigitalIn)  // Jumper to choose direction
 #pragma config(Sensor, dgtl12,          auto_mode_jumper,        sensorDigitalIn) // Jumper to choose which auto routine to exec
 
@@ -49,6 +50,11 @@ void basemotor(short left, short right) {
 
 void bellymotor(short stimulus) {
 	short sat = stimulus > 127 ? 127 : (stimulus < -127 ? -127 : stimulus);
+	int kBellyDownPot = 4000;
+  int kBellyUpPot = 2275;
+  if (stimulus < 0 && SensorValue[belly_angle] < kBellyUpPot) {
+  	sat = 0;
+  }
 	motor[M7] = -1*sat; motor[M8] = sat;
 }
 
@@ -110,11 +116,12 @@ void auto_mobile_goal()
 {
 short sign = SensorValue[jumper] ? -1 : 1;
 ARM_MOTOR_UP
-sleep(700);
-// arm should have cleared
-BELLY_MOTOR_DOWN
-sleep(400);
+sleep(1000);
 ARM_MOTOR_ZERO
+
+// arm should have been vertical now.
+
+BELLY_MOTOR_DOWN
 sleep(1300);
 BELLY_MOTOR_ZERO
 
@@ -195,6 +202,19 @@ short nonlinear(short val) {
 #define BELLY_POT_FRONT 3275 // value of pot when loader is all the way front
 #define BELLY_POT_MID  2000
 #define BELLY_POT_
+
+int kArmUp = 2048;
+void raise_arm_halfway() {
+	// Read arm potentiometer
+	int iterations = 0;
+	while(iterations < 200) {
+		sleep(10);
+		short voltage = (kArmUp - SensorValue[arm_angle]) * 100.0/kArmUp;
+		{motor[M2] = voltage; motor[M9] = -1*voltage;};
+		iterations = iterations + 1;
+	}
+}
+
 task usercontrol()
 {
 	//short target_pot = BELLY_POT_MID;
