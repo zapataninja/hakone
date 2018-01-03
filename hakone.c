@@ -115,14 +115,15 @@ void auto_static_goal()
 void auto_mobile_goal()
 {
 short sign = SensorValue[jumper] ? -1 : 1;
+
 ARM_MOTOR_UP
-sleep(1000);
+sleep(700);
 ARM_MOTOR_ZERO
 
 // arm should have been vertical now.
 
 BELLY_MOTOR_DOWN
-sleep(1300);
+sleep(1100);
 BELLY_MOTOR_ZERO
 
 BASE_MOTOR_FWD
@@ -217,7 +218,6 @@ void raise_arm_halfway() {
 
 task usercontrol()
 {
-	//short target_pot = BELLY_POT_MID;
 	// User control code here, inside the loop
 	while (true)
 	{
